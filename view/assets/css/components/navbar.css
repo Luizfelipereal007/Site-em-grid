@@ -1,0 +1,38 @@
+.navbar {
+    /* posicionamento na grid */
+    height: 68px;
+    grid-column: 2;
+    grid-row: 1;
+
+    background-color: var(--navbar-background-color);
+    z-index: 10;
+    box-shadow: 
+        3px 0 3px 0 rgba(52, 71, 103, .15), 
+        3px 0 1px -2px rgba(52, 71, 103, .2)
+    ;
+
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+
+        img {
+            height: 48px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        /* posicionamento na grid */
+        height: 48px;
+        grid-column: 1;
+
+        nav {
+            img {
+                height: 38px;
+            }
+        }
+    }
+}

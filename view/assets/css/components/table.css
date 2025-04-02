@@ -1,0 +1,52 @@
+.table {
+    width: 100%;
+
+    thead {
+        font-weight: var(--font-bold);
+    }
+
+    tbody {
+        tr {
+            border-top: 1px solid var(--text-secondary);
+
+            .table-actions {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: .25rem;
+
+                span {
+                    font-size: 1.5rem;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &:hover {
+                filter: brightness(40%); /* esse aqui prejudica quando seleciona o texto */
+            }
+        }
+    }
+
+    td {
+        padding: .5rem;
+        vertical-align: middle;
+    }
+}
+
+@media (max-width: 690px) {
+    .table {
+        tbody {
+            tr {
+                /* display: flex;
+                flex-direction: column; */
+
+                .table-actions {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}

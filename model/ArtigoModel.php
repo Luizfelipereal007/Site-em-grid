@@ -1,10 +1,9 @@
 <?php
 
-require_once __DIR__ . '/CategoriaModel.php';
+require_once __DIR__ . "/../config/Database.php";
 
 class ArtigoModel {
 
-    private $categoriaModel;
     private $tabela = "artigo";
     private $conn;
 
@@ -14,7 +13,8 @@ class ArtigoModel {
     }
 
     public function listar() {
-        $query = "SELECT * FROM $this->tabela;";
+        $query = "SELECT a.*, c.nome as categoria_nome FROM $this->tabela a 
+                  LEFT JOIN categoria c ON a.categoria_id = c.id;";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -22,29 +22,51 @@ class ArtigoModel {
     }
 
     public function buscarPorId($id) {
-        foreach ($this->artigos as $artigo) {
-            if ($id == $artigo['id']) {
-                return $artigo;
-            }
-        }
+        $query = "SELECT * FROM $this->tabela WHERE id = :id;";
 
-        return NULL;
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
-    private function popularArtigosComCategoria($artigos) {
-        $categorias = $this->categoriaModel->categorias;
-        $artigosPopulados = [];
+    public function criar($titulo, $conteudo, $categoria_id) {
+        $query = "INSERT INTO $this->tabela (titulo, conteudo, categoria_id) 
+                  VALUES (:titulo, :conteudo, :categoria_id);";
 
-        foreach ($this->categoriaModel->categorias as $categoria) {
-            foreach ($artigos as $artigo) {
-                if ($categoria['id'] == $artigo['categoriaId']) {
-                    $artigo['categoria'] = $categoria;
-                    array_push($artigosPopulados, $artigo);
-                }
-            }
-        }
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':titulo', $titulo);
+        $stmt->bindParam(':conteudo', $conteudo);
+        $stmt->bindParam(':categoria_id', $categoria_id);
+        $stmt->execute();
 
-        return $artigosPopulados;
+        return $stmt->rowCount() > 0;
     }
 
+    public function editar($artigo) {
+        $query = "UPDATE $this->tabela SET 
+                  titulo = :titulo, 
+                  conteudo = :conteudo, 
+                  categoria_id = :categoria_id 
+                  WHERE id = :id;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $artigo["id"]);
+        $stmt->bindParam(":titulo", $artigo["titulo"]);
+        $stmt->bindParam(":conteudo", $artigo["conteudo"]);
+        $stmt->bindParam(":categoria_id", $artigo["categoria_id"]);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function excluir($id) {
+        $query = "DELETE FROM $this->tabela WHERE id = :id;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
 }

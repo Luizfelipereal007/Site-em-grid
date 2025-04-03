@@ -37,16 +37,19 @@
                     <?php foreach ($lista as $item) { ?>
                     <tr>
                         <td><?= $item['id'] ?></td>
-                        <td><?= $item['categoria_id'] ?></td>
+                        <td><?= $item['categoria_nome'] ?></td>
                         <td><?= $item['titulo'] ?></td>
                         <td class="table-actions">
                             <a
                                 href="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/artigo.php?id=' . $item['id'] ?>">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
-                            <form method="POST"
-                                action="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/artigo.php?id=' . $item['id'] ?>">
-                                <span class="material-symbols-outlined">delete</span>
+                            <form id="delete-form-<?= $item['id'] ?>" method="POST"
+                                action="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/artigo_excluir.php' ?>">
+                                <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                                <span class="material-symbols-outlined" onclick="document.getElementById('delete-form-<?= $item['id'] ?>').submit();">
+                                    delete
+                                </span>
                             </form>
                         </td>
                     </tr>

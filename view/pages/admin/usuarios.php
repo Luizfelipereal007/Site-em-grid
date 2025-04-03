@@ -30,6 +30,7 @@ $lista = $usuarioModel->listar();
                         <td>ID</td>
                         <td>Email</td>
                         <td>Nome</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +44,9 @@ $lista = $usuarioModel->listar();
                                     href="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/usuario.php?id=' . $item['id'] ?>">
                                     <span class="material-symbols-outlined">edit</span>
                                 </a>
-                                <form method="POST"
-                                    action="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/usuario.php?id=' . $item['id'] ?>">
+                                <form id="delete-form-<?= $item['id'] ?>" method="POST"
+                                    action="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/usuario_excluir.php' ?>">
+                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
                                     <span class="material-symbols-outlined" onclick="document.getElementById('delete-form-<?= $item['id'] ?>').submit();">
                                         delete
                                     </span>

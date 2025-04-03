@@ -10,14 +10,14 @@
     if (isset($_GET['id'])) {
         $modo = 'EDICAO';
         $artigoModel = new ArtigoModel();
-        $artigo = $artigoModel->buscarPorId($_GET['id']);
+        $artigo = $artigoModel->buscarPorId((int) $_GET['id']);
     } else {
         $modo = 'CRIACAO';
         $artigo = [
             'id'=> '',
             'titulo'=> '',
             'conteudo'=> '',
-            'categoriaId'=> '',
+            'categoria_id'=> '',
         ];
     }
 
@@ -30,10 +30,10 @@
     <?php require_once __DIR__ . '/../../components/sidebar.php'; ?>
 
     <main class="content-adm">
-        <h1><?= $modo == 'EDICAO' ? 'Artigos ID:' . $artigo['id'] : 'Criar Artigos' ?></h1>
+        <h1><?= $modo == 'EDICAO' ? 'Artigos ID: ' . $artigo['id'] : 'Criar Artigos' ?></h1>
 
         <div class="container">
-            <form class="form" method="POST" action="">
+            <form class="form" method="POST" action="<?= APP_CONSTANTS['APP_URL'] . APP_CONSTANTS['PATH_PAGES'] . 'admin/artigo_salvar.php' ?>">
                 <div class="form-content">
                     <input name="id" type="hidden" value="<?= $artigo['id'] ?>">
 
@@ -43,7 +43,7 @@
                             <option value=""></option>
                             <?php foreach ($categorias as $categoria) { ?>
                             <option value="<?= $categoria['id'] ?>"
-                                <?= $artigo['categoriaId'] == $categoria['id'] ? 'selected' : '' ?>>
+                                <?= $artigo['categoria_id'] == $categoria['id'] ? 'selected' : '' ?>>
                                 <?= $categoria['nome'] ?>
                             </option>
                             <?php } ?>

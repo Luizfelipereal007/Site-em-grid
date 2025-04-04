@@ -1,5 +1,6 @@
-CREATE DATABASE IF NOT EXISTS devmedia_db;
-USE devmedia_db;
+CREATE DATABASE site_adm_griddb;
+
+USE site_adm_griddb;
 
 CREATE TABLE categoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -21,6 +22,14 @@ CREATE TABLE artigo (
     conteudo TEXT NOT NULL,
     categoria_id INT,
     FOREIGN KEY (categoria_id) REFERENCES categoria(id)
-    -- restrição de integridade referencial, ou seja, categoriaId na tabela Artigo deve corresponder a um id existente na tabela Categoria.
-    -- garante que não seja possível inserir um categoriaId em Artigo que não exista na tabela Categoria.
 );
+
+CREATE TABLE produto (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(500),
+    categoria_id INT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    imagem_url VARCHAR(500) NOT NULL,
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+);  
